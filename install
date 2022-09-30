@@ -371,8 +371,7 @@ install_finished(){
 
 
 # INICIO ########################################
-
-test "$(id -u)" != 0 && echo "$RED ERROR - execução somente como usuário 'root'!$NOCOLOR"; echo; exit 1
+test "$(id -u)" != 0 && { echo "$RED ERROR - execução somente como usuário 'root'!$NOCOLOR"; echo; exit 1; }
 
 check_network
 debian_bootstrap
