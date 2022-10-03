@@ -22,7 +22,7 @@ set -e
 #
 
 # Vars:
-SUDO_USER='admin'
+SUDO_USER='administrator'
 HOSTNAME='server001'
 DOMAIN='domain.local'
 NET_IP='dhcp'
@@ -38,11 +38,11 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 #################################################
 
-if [ -z "${disco}" ]; then
-    echo "Favor configurar a variável 'disco'!"; echo
+if [ -z "${disk}" ]; then
+    echo "Favor exportar a variável 'disk'!"; echo
     exit 1
 else
-    echo "var disco='${disco}'"
+    echo "var disk='${disk}'"
 fi
 
 if [ -z "${CHROOT_DIR}" ]; then
@@ -137,7 +137,7 @@ chroot_debian_install(){
     echo "127.0.1.1    ${HOSTNAME}.${DOMAIN}    ${HOSTNAME}" >> ${CHROOT_DIR}/etc/hosts
     
     
-    run apt -y install --no-install-recommends vim whiptail kmod apt-utils
+    run apt -y install --no-install-recommends vim kmod apt-utils whiptail
 
     cat <<EOF > ${CHROOT_DIR}/root/.vimrc
 set nobackup
@@ -155,7 +155,7 @@ set expandtab
 colo desert
 EOF
 
-    mkdir ${CHROOT_DIR}/root/bin
+    mkdir ${CHROOT_DIR}/root/.bin
     mkdir ${CHROOT_DIR}/root/.ssh
     chmod 700 ${CHROOT_DIR}/root/.ssh
     touch ${CHROOT_DIR}/root/.ssh/authorized_keys
@@ -169,7 +169,7 @@ HISTFILESIZE=3000
 PS1="\[\e[0;37m\][\[\e[0;31m\]\h\[\e[0;37m\]@\[\e[0;31m\]\u\[\e[0;37m\]]\[\e[0;37m\][\[\e[0;32m\]\w\[\e[0;37m\]]\[\e[0;37m\]\\n\[\e[0;37m\]# \[\e[0m\]"
 #[[ $TERM != "screen" ]] && exec tmux  ##autostart tmux.
 export TERM=xterm-256color
-export PATH="$HOME/bin:$PATH"
+export PATH="$HOME/.bin:$PATH"
 export EDITOR='/usr/bin/vim'
 export PAGER='/usr/bin/less'
 alias l='ls -lh'
@@ -229,7 +229,7 @@ EOF
         run grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=debian --recheck --no-nvram --removable
     else
         run apt -y install grub-pc
-        run grub-install --recheck "${disco}"
+        run grub-install --recheck "${disk}"
     fi
 
     sed -i "s/quiet/quiet net.ifnames=0 ipv6.disable=1/g" ${CHROOT_DIR}/etc/default/grub
@@ -371,7 +371,7 @@ install_finished(){
 
 
 # INICIO ########################################
-test "$(id -u)" != 0 && { echo "$RED ERROR - execução somente como usuário 'root'!$NOCOLOR"; echo; exit 1; }
+if [ "$(id -u)" -ne 0 ]; then echo "$RED ERROR - execução somente como usuário 'root'!$NOCOLOR"; echo; exit 1; fi
 
 check_network
 debian_bootstrap
@@ -383,5 +383,5 @@ install_finished
 
 
 #fazer:
-#export disco='/dev/sda'
+#export disk='/dev/sda'
 #sh install | tee -a log.txt
