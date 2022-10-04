@@ -3,10 +3,10 @@
 Script em Shell para instalação Debian 11 (pt-br) em ambiente chroot.
 
 É necessário configurar algumas variáveis dentro do script antes de iniciar.  
-Também temos que exportar a variável 'disco' informando qual o disco de instalação:
+Também temos que exportar a variável 'disk' informando qual o disco de instalação:
 
 ```
-export disco='/dev/sda'
+export disk='/dev/sda'
 ```
 
 Agora, só executar:
