@@ -209,8 +209,9 @@ deb http://security.debian.org/ bullseye-security main contrib non-free
 EOF
 
     run apt update 
-    run apt upgrade
+    run apt -y upgrade
     
+    run apt -y install tzdata
     run dpkg-reconfigure tzdata
   
     run apt -y install locales
