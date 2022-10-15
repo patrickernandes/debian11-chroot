@@ -166,7 +166,7 @@ export LS_OPTIONS='--color=auto'
 alias ls='ls $LS_OPTIONS'
 HISTTIMEFORMAT="%F %T "
 HISTFILESIZE=3000
-PS1="\[\e[0;37m\][\[\e[0;31m\]\h\[\e[0;37m\]@\[\e[0;31m\]\u\[\e[0;37m\]]\[\e[0;37m\][\[\e[0;32m\]\w\[\e[0;37m\]]\[\e[0;37m\]\\n\[\e[0;37m\]# \[\e[0m\]"
+PS1="\[\e[31m\]\h\[\e[m\]@\[\e[33m\]\u\[\e[m\][\w]\\$ "
 #[[ $TERM != "screen" ]] && exec tmux  ##autostart tmux.
 export TERM=xterm-256color
 export PATH="$HOME/.bin:$PATH"
