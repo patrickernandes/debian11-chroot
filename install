@@ -1,5 +1,4 @@
-#!/bin/sh
-set -e
+#!/bin/sh -e
 
 #
 # Instalação rápida via Shell script do Debian 11 em ambiente chroot.
@@ -151,8 +150,10 @@ set tabstop=4
 set softtabstop=4
 set shiftwidth=4
 set expandtab
+set modeline
 
 colo desert
+set mouse=c
 EOF
 
     mkdir ${CHROOT_DIR}/root/.bin
@@ -223,7 +224,7 @@ EOF
 
     run apt -y install linux-image-amd64 firmware-linux-free firmware-misc-nonfree firmware-realtek firmware-bnx2 firmware-qlogic
     run apt -y install systemd systemd-sysv systemd-timesyncd libnss-systemd libpam-systemd init
-    run apt -y install dbus cron gettext-base debconf-i18n util-linux-locales man-db manpages-pt-br libc-l10n less irqbalance kbd htop dstat tmux tree ncdu rsync openssh-client openssh-server pciutils usbutils nano pv acpid netbase net-tools isc-dhcp-client iputils-ping iproute2 netcat-openbsd telnet parted gdisk fdisk lvm2 bc dmidecode bridge-utils lsof hdparm ntfs-3g dosfstools kpartx unzip iftop wget whois pigz smartmontools rsyslog logrotate psmisc nmon nethogs ifupdown sudo openssl traceroute zstd fuse uml-utilities curl ncurses-term iptables ebtables arptables xz-utils bzip2 ca-certificates
+    run apt -y install dbus cron gettext-base debconf-i18n util-linux-locales man-db manpages-pt-br libc-l10n less irqbalance kbd htop dstat tmux tree ncdu rsync openssh-client openssh-server pciutils usbutils nano pv acpid netbase net-tools isc-dhcp-client iputils-ping iproute2 netcat-openbsd telnet parted gdisk fdisk lvm2 bc dmidecode bridge-utils lsof hdparm ntfs-3g dosfstools kpartx unzip iftop wget whois pigz smartmontools rsyslog logrotate psmisc nmon nethogs ifupdown sudo openssl traceroute zstd fuse uml-utilities curl ncurses-term iptables ebtables arptables xz-utils bzip2 ca-certificates smemstat
 
     if [ -d "/sys/firmware/efi" ]; then
         run apt -y install grub-efi-amd64 shim-signed shim-helpers-amd64-signed efibootmgr
@@ -357,7 +358,7 @@ chroot_umount(){
         umount ${CHROOT_DIR}/dev/pts
         umount ${CHROOT_DIR}/dev
         umount ${CHROOT_DIR}/proc
-        sleep 2
+        sleep 4
         umount ${CHROOT_DIR}
     fi
 }
@@ -385,4 +386,4 @@ install_finished
 
 #fazer:
 #export disk='/dev/sda'
-#sh install | tee -a log.txt
+#sh install | tee -a /mnt/log.txt
