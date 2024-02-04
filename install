@@ -224,7 +224,7 @@ EOF
 
     run apt -y install linux-image-amd64 firmware-linux-free firmware-misc-nonfree firmware-realtek firmware-bnx2 firmware-qlogic
     run apt -y install systemd systemd-sysv systemd-timesyncd libnss-systemd libpam-systemd init
-    run apt -y install dbus cron gettext-base debconf-i18n util-linux-locales man-db manpages-pt-br libc-l10n less irqbalance kbd htop dstat tmux tree ncdu rsync openssh-client openssh-server pciutils usbutils nano pv acpid netbase net-tools isc-dhcp-client iputils-ping iproute2 netcat-openbsd telnet parted gdisk fdisk lvm2 bc dmidecode bridge-utils lsof hdparm ntfs-3g dosfstools kpartx unzip iftop wget whois pigz smartmontools rsyslog logrotate psmisc nmon nethogs ifupdown sudo openssl traceroute zstd fuse uml-utilities curl ncurses-term iptables ebtables arptables xz-utils bzip2 ca-certificates smemstat
+    run apt -y install dbus cron gettext-base debconf-i18n util-linux-locales man-db manpages-pt-br libc-l10n less irqbalance kbd htop dstat tmux tree ncdu rsync openssh-client openssh-server pciutils usbutils nano pv acpid netbase net-tools isc-dhcp-client iputils-ping iproute2 netcat-openbsd telnet parted gdisk fdisk lvm2 bc dmidecode bridge-utils lsof hdparm ntfs-3g dosfstools kpartx unzip iftop wget whois pigz smartmontools rsyslog logrotate psmisc nmon nethogs ifupdown sudo openssl traceroute zstd fuse uml-utilities curl ncurses-term iptables ebtables arptables xz-utils bzip2 ca-certificates smemstat linux-cpupower
 
     if [ -d "/sys/firmware/efi" ]; then
         run apt -y install grub-efi-amd64 shim-signed shim-helpers-amd64-signed efibootmgr
@@ -326,7 +326,7 @@ EOF
     run chmod +x /etc/rc.local
 
     if [ -c /dev/kvm ]; then
-        sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="[^"]*/& intel_iommu=on systemd.unified_cgroup_hierarchy=false systemd.legacy_systemd_cgroup_controller=false/g' ${CHROOT_DIR}/etc/default/grub
+        sed -i 's/GRUB_CMDLINE_LINUX_DEFAULT="[^"]*/& net.ifnames=1 intel_iommu=on systemd.unified_cgroup_hierarchy=false systemd.legacy_systemd_cgroup_controller=false/g' ${CHROOT_DIR}/etc/default/grub
         run update-grub
     fi
 
